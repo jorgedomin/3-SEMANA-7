@@ -1,0 +1,57 @@
+using System.Threading.Tasks;
+using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Semana7 //  Verificación de una fórmula matemática balanceada usando pilas
+    internal class VerificacionBalanceo
+{ 
+    {
+        public static void Run()
+        {
+            Console.Write("Ingrese la fórmula matemática: ");
+            string formula = Console.ReadLine();
+            
+            if (IsBalanced(formula))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Fórmula balanceada.");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Fórmula no balanceada.");
+                Console.ResetColor();
+            }
+        }
+        public static bool IsBalanced(string expression)  // Esta función para verificar si esta fórmula está o no balanceada
+        {
+            Stack<char> stack = new Stack<char>();
+
+            foreach (char c in expression)
+            {
+                if (c == '(' || c == '{' || c == '[')
+                {
+                    stack.Push(c); // Empuja los caracteres de apertura en la pila
+                }
+                else if (c == ')' || c == '}' || c == ']')
+                {
+                    if (stack.Count == 0) return false; // Si la formula no esta balanceada o si la pila está vacía.
+                    char open = stack.Pop(); // Saca el último carácter de apertura
+
+                    if ((c == ')' && open != '(') ||  // Verificar si el carácter de cierre corresponde al la apertura
+                        (c == '}' && open != '{') ||
+                        (c == ']' && open != '['))
+                    {
+                        return false; // la fórmula no está balanceada, no corresponde
+                    }
+                }
+            }
+
+            return stack.Count == 0; //  cuando la fórmula está balanceada La pila debe esta vacía.
+        }
+    }
+
+}
